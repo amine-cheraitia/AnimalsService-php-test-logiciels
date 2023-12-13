@@ -11,27 +11,30 @@
 
 require 'invalidInputException.php';
 
-class AnimalService {
+class AnimalService
+{
     public $pdo;
 
     /**
      * AnimalService constructor.
      * Initialise la BDD
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->pdo = new PDO('sqlite:' . __DIR__ . '/animals.sqlite');
 
         $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
-
+    /*  */
     /**
      * permet de de renvoyer les détails d'un animal
      * @param $id l'identifiant du animal recherché
      * @return mixed le retour de la requete SQL
      * @throws invalidInputException en cas d'erreur de paramètre
      */
-    public function getAnimal($id) {
+    public function getAnimal($id)
+    {
         if (empty($id)) {
             throw new invalidInputException("l'id doit être renseigné");
         }
@@ -55,7 +58,8 @@ class AnimalService {
      * @return array le retour de la requete SQL
      * @throws invalidInputException en cas d'erreur de paramètre
      */
-    public function searchAnimal($search) {
+    public function searchAnimal($search)
+    {
         if (empty($search)) {
             throw new invalidInputException('search doit être renseigné');
         }
@@ -78,7 +82,8 @@ class AnimalService {
      * Récupère tous les animals en BDD
      * @return array le retour de la requete SQL
      */
-    public function getAllAnimals() {
+    public function getAllAnimals()
+    {
         $req = $this->pdo->query('SELECT * from animal');
 
         $row = $req->fetchAll();
@@ -96,7 +101,8 @@ class AnimalService {
      * @return bool true si ok, false si erreur SQL
      * @throws invalidInputException en cas d'erreur de paramètre
      */
-    public function createAnimal($nom, $numeroIdentification) {
+    public function createAnimal($nom, $numeroIdentification)
+    {
         if (empty($nom) || !is_string($nom)) {
             throw new invalidInputException('le nom doit être renseigné');
         }
@@ -119,7 +125,8 @@ class AnimalService {
      * @return bool true si ok, false si erreur SQL
      * @throws invalidInputException en cas d'erreur de paramètre
      */
-    public function updateAnimal($id, $nom, $numeroIdentification) {
+    public function updateAnimal($id, $nom, $numeroIdentification)
+    {
         if (empty($nom) && !is_string($nom)) {
             throw new invalidInputException('le nom  doit être renseigné');
         }
@@ -148,7 +155,8 @@ class AnimalService {
      * @return bool true si SQL ok, false si non
      * @throws invalidInputException en cas d'erreur de paramètre
      */
-    public function deleteAnimal($id) {
+    public function deleteAnimal($id)
+    {
         if (null === $id) {
             throw new invalidInputException("l'id doit être renseigné");
         }
@@ -166,7 +174,8 @@ class AnimalService {
      * Supprime tous les animals
      * @return false|PDOStatement
      */
-    public function deleteAllAnimal() {
+    public function deleteAllAnimal()
+    {
         return $this->pdo->query('DELETE from animal');
     }
 }
