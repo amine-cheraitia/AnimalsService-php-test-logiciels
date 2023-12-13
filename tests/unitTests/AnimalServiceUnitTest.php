@@ -68,13 +68,13 @@ final class AnimalServiceUnitTest extends TestCase
     public function testCreationAnimalWithoutName()
     {
         $this->expectException(invalidInputException::class);
-        $this->animalService->createAnimal('', '123');
+        $this->animalService->createAnimal(null, '123');
     }
 
     public function testCreationAnimalWithoutNumber()
     {
         $this->expectException(invalidInputException::class);
-        $this->animalService->createAnimal('Test Animal', '');
+        $this->animalService->createAnimal('Test Animal', null);
     }
 
     public function testSearchAnimalWithNumber()
@@ -106,6 +106,4 @@ final class AnimalServiceUnitTest extends TestCase
         $result = $this->animalService->searchAnimal('Test');
         $this->assertIsArray($result, 'Search should return an array for valid input');
     }
-
-    // Add more tests as needed for other methods
 }
