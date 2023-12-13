@@ -178,4 +178,31 @@ class AnimalService
     {
         return $this->pdo->query('DELETE from animal');
     }
+
+    public function deleteLastAnimal()
+    {
+        // Récupérer l'ID du dernier enregistrement
+        $lastId = $this->pdo->query('SELECT id FROM animal ORDER BY id DESC LIMIT 1')->fetchColumn();
+
+        if ($lastId === false) {
+            // Aucun enregistrement trouvé, vous pouvez choisir de lancer une exception ou simplement retourner false
+            return false;
+        }
+
+        // Appeler la méthode deleteAnimal avec l'ID du dernier enregistrement
+        return $this->deleteAnimal($lastId);
+    }
+
+    public function deleteAnimalByNumeroIdentification($numeroIdentification)
+    {
+        if (empty($numeroIdentification)) {
+            throw new invalidInputException("Le numéro d'identification doit être renseigné");
+        }
+
+        $stmt = $this->pdo->prepare('DELETE FROM animal WHERE numeroIdentifcation = :numeroIdentification');
+
+        return $stmt->execute([
+            'numeroIdentification' => $numeroIdentification,
+        ]);
+    }
 }
